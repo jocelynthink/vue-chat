@@ -1,0 +1,15 @@
+{
+  "code": 200,
+  "message": "获取成功",
+  "data": [
+    {
+      "content": "../assert/images/1.jpg"
+    },
+    {
+      "content": "/images/1.jpg"
+    },
+    {
+      "content": "/images/1.jpg"
+    }
+  ]
+}
