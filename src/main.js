@@ -19,6 +19,9 @@ import Loading from './views/Loading'
 //   el: 'body',
 //   components: { App }
 // })
+VueTouch.config.swipe = {
+  direction: 'horizontal'
+};
 
 Vue.use(Router)
 Vue.use(VueTouch)
