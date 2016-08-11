@@ -46,15 +46,15 @@
 		methods: {
 			connectServer () {
 				console.log('connect to server');
-				console.log($);
-				$.ajax({
-					url: 'localhost: 3000',
-					dataType: "jsonp",
-					jsonp: "callback",
-					success: function(data) {
-						console.log(data);
-					}
-				})
+//				console.log($);
+//				$.ajax({
+//					url: 'localhost: 3000',
+//					dataType: "jsonp",
+//					jsonp: "callback",
+//					success: function(data) {
+//						console.log(data);
+//					}
+//				})
 
 			}
 		}
@@ -62,5 +62,5 @@
 </script>
 
 <style>
-	
+
 </style>
