@@ -19,9 +19,9 @@
 </template>
 
 <script>
-document.body.addEventListener('touchmove', function (e) {
-  e.preventDefault()
-})
+//document.body.addEventListener('touchmove', function (e) {
+//  e.preventDefault()
+//})
 
 export default {
   data () {
