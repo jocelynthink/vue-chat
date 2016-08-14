@@ -1,6 +1,6 @@
 <template>
-<div class="my-container">	
-	<div v-bind:class="{'HideMenu page-cover':isShowMenu}">	
+<div class="my-container">
+	<div v-bind:class="{'HideMenu page-cover':isShowMenu}">
 		<nav class="bar bar-nav user-bar" >
 				<a v-on:click="ShowMenu" >
 				   <i class="fa fa-align-justify"  aria-hidden="true" ></i>
@@ -9,11 +9,11 @@
 		</nav>
 	</div>
 </div>
-	<!-- v-bind:class="{'fabar':isShowMenu}" --> 
+	<!-- v-bind:class="{'fabar':isShowMenu}" -->
 	<Menu v-if="isShowMenu" v-bind:class="{'ShowMenu':isShowMenu}"></Menu>
 </template>
 
-<script>
+<script type="es6">
 	import NavItem from '../components/NavItem'
 	import Menu from '../components/Menu'
 	export default {
@@ -50,7 +50,7 @@
 	.page-cover {
 		width: 100vw;
 		height: 100vh;
-		
+
 	}
 	/*.staggered-transition {
 	    transition: all .5s ease;

@@ -5,7 +5,7 @@ ddd
 </div>
 
 </template>
-<script>
+<script type="es6">
 
 </script>
 

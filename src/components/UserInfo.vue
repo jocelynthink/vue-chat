@@ -13,7 +13,7 @@
         </div>
     </div>
 </template>
-<script>
+<script type="es6">
     export default {
         replace:true,
         data () {

@@ -1,7 +1,7 @@
 <template>
 	<ul class="mmbcont">
-		<li class="mmbcontitem"  
-		   v-for="media in mediaset" 
+		<li class="mmbcontitem"
+		   v-for="media in mediaset"
 		   v-link="{name: 'media', params: { mediaid: media['mediaid']}}">
 			<img v-bind:src="media.src" v-if="media.type==='image'">
 			<video v-bind:src="media.src" v-if="media.type==='video'"></video>
@@ -24,7 +24,7 @@
 	</div>
 </template>
 
-<script>
+<script type="es6">
 	export default {
 		props: {
 			mediaset : {
@@ -35,5 +35,5 @@
 </script>
 
 <style>
-	
+
 </style>

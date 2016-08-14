@@ -1,7 +1,7 @@
 <template>
-	<a  class="item-content" 
-			track-by="$index" 
-			v-on:click="gotoChat(name)" 
+	<a  class="item-content"
+			track-by="$index"
+			v-on:click="gotoChat(name)"
 			v-link="{name: 'chat' ,params: { userId: name }}"
 			v-touch:swipeleft="delete">
     <div class="item-left"><img v-bind:src="src"></div>
@@ -13,7 +13,7 @@
   </a>
 </template>
 
-<script>
+<script type="es6">
 export default {
 	props: {
 		src: {

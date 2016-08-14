@@ -1,12 +1,12 @@
 <template>
 	<div class="message left" v-if="isleft">
 	  <div class="message-img"><img v-bind:src="src" alt=""></div>
-	  <div class="message-conts">                      
+	  <div class="message-conts">
       <p class="nike" v-if="isshowname">{{name}}</p>
       <div class="message-main">
       	<p v-if="message.type==='text'" class="message-cont">{{message.cont}}</p>
       </div>
-      <a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'image'} }" 
+      <a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'image'} }"
     	   v-if="message.type==='image'">
     		<img v-bind:src="message.src"  class="message-image">
     	</a>
@@ -16,13 +16,13 @@
 						<div class="small"></div>
 						<div class="middle" v-bind:class="{'stopanimate': !(message.mediaid === playaudioid) }"></div>
 						<div class="large" v-bind:class="{'stopanimate': !(message.mediaid === playaudioid)}"></div>
-						<audio v-bind:src="message.src" 
+						<audio v-bind:src="message.src"
 						       v-el:myaudio>
 				    </audio>
     				<span>{{message.audiotime + '"'}}</span>
     		</div>
     	</a>
-    	<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'video'} }" 
+    	<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'video'} }"
     	   v-if="message.type==='video'">
     		  <video  v-bind:src="message.src"
     					    class="message-video"
@@ -33,12 +33,12 @@
 	</div>
 	<div class="message right" v-else>
 	  <div class="message-img"><img v-bind:src="src" alt=""></div>
-	  <div class="message-conts">                      
+	  <div class="message-conts">
       <p class="nike nike-right" v-if="isshowname">{{name}}</p>
       <div class="message-main" v-if="message.type==='text'">
       	<p v-if="message.type==='text'" class="message-cont">{{message.cont}}</p>
       </div>
-    	<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'image'} }" 
+    	<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'image'} }"
     	   v-if="message.type==='image'">
     		<img v-bind:src="message.src"  class="message-image">
     	</a>
@@ -48,13 +48,13 @@
   						<div class="smallr"></div>
   						<div class="middler" v-bind:class="{'stopanimate': !(message.mediaid===playaudioid)}"></div>
   						<div class="larger" v-bind:class="{'stopanimate': !(message.mediaid===playaudioid)}"></div>
-							<audio v-bind:src="message.src" 
+							<audio v-bind:src="message.src"
 							       v-el:myaudio>
 					    </audio>
     					<span>{{message.audiotime + '"'}}</span>
     		</div>
     	</a>
-    	<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'video'} }" 
+    	<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'video'} }"
     	   v-if="message.type==='video'">
     		  <video  v-bind:src="message.src"
     					    class="message-video"
@@ -66,10 +66,10 @@
 	<!-- <media v-if="isShowMedia" :mediasrc="message.src" ></media> -->
 </template>
 
-<script>
+<script type="es6">
 /**
 	*	message: 信息类
-			type：消息类型 
+			type：消息类型
 				text:文本
 				image:图片
         audio:音频

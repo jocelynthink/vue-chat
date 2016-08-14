@@ -3,6 +3,8 @@ import App from './App'
 import Router from 'vue-router'
 import VueTouch from 'vue-touch'
 
+import 'whatwg-fetch'
+
 import Home from './views/Home'
 import Tasks from './views/ChatRoom'
 import List from './views/List'
@@ -31,7 +33,7 @@ Vue.config.debug = true;
 
 router.map({
 	'/': {
-		component: Loading
+		component: List
 	},
 	'/home': {
 		component: Home

@@ -1,14 +1,14 @@
 <template>
-	<ul class="media" v-bind:style="{left: left+'vw' ,width: width+'vw' }">		
-		<li class="mediaBg"  
-				v-for="media in mediaset" 
-				v-on:click="hiddenMedia" 
-				v-touch:swipeleft="weipeleft(event,$index)" 
-				v-touch:swiperight="weiperight(event,$index)" 
+	<ul class="media" v-bind:style="{left: left+'vw' ,width: width+'vw' }">
+		<li class="mediaBg"
+				v-for="media in mediaset"
+				v-on:click="hiddenMedia"
+				v-touch:swipeleft="weipeleft(event,$index)"
+				v-touch:swiperight="weiperight(event,$index)"
 				v-bind:style="{left: $index*100 + 'vw'}">
-				<img v-bind:src="media.src" 
+				<img v-bind:src="media.src"
 				     v-if="media.type==='image'">
-				<video-item  v-if="media.type==='video'" 
+				<video-item  v-if="media.type==='video'"
 						         :mediasrc="media.src"></video-item>
 				<!-- <p>{{$index}}</p> -->
 		</li>
@@ -18,7 +18,7 @@
 	</a>
 </template>
 
-<script>
+<script type="es6">
 	import VideoItem from '../components/VideoItem'
 
 	export default {
@@ -39,7 +39,7 @@
 		},
 		ready () {
 			console.log('sss');
-			this.left = -this.currentid*100 
+			this.left = -this.currentid*100
 		},
 		methods: {
 			hiddenMedia() {

@@ -1,6 +1,6 @@
 <template>
 <div class="loading">
-	
+
 	<div class="spinner">
 		<div class="bounce1"></div>
 		<div class="bounce2"></div>
@@ -11,7 +11,7 @@
 </div>
 </template>
 
-<script>
+<script type="es6">
 
 </script>
 
@@ -24,7 +24,7 @@
 	}
 	.spinner {
 		position: absolute;
-		top: 50%;	
+		top: 50%;
 		left: 50%;
 		z-index: 200;
 		margin-left: -6px;

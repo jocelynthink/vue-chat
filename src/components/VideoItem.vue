@@ -1,6 +1,6 @@
 <template>
 	<div class="video-class">
-		<video  v-bind:src="mediasrc" 
+		<video  v-bind:src="mediasrc"
 					  autoplay="{{isAutoPlay}}"
 					  v-el:myvideo
 					  v-on:progress="progressing"
@@ -12,23 +12,23 @@
 					<i class="fa fa-play" aria-hidden="true" v-if="!isPalyVideo"></i>
 					<i class="fa fa-pause" aria-hidden="true" v-if="isPalyVideo"></i>
 				</a>
-			</span>	
-			<span v-text="currentTime"></span>						
+			</span>
+			<span v-text="currentTime"></span>
 			<span v-text="duration"></span>
 			<div class="progress1">
-				<div  class="progress2" 
+				<div  class="progress2"
 				      v-bind:style="{left: left  +'rem'}"
 				      @mousedown.stop="startDrag" @touchstart.stop="startDrag"
 				      @mousemove.stop="onDrag" @touchmove.stop="onDrag"
 				      @mouseup.stop="stopDrag" @touchend.stop="stopDrag" @mouseleave.stop="stopDrag"
 				      >
 				</div>
-			</div>	
+			</div>
 		</div>
 	</div>
 </template>
-	
-<script>
+
+<script type="es6">
 	export default {
 		props: {
 			mediasrc: {
@@ -112,7 +112,7 @@
 			stopDrag () {
 			  if (this.dragging) {
 			    this.dragging = false;
-			    
+
 			  }
 			}
 		}
@@ -133,19 +133,19 @@
 		bottom: 0.3rem;
 		left:0;
 	}
-	.progress1{ 
-		width:17rem; 
-		height:0.2rem; 
-		background:gray; 
+	.progress1{
+		width:17rem;
+		height:0.2rem;
+		background:gray;
 		float: left;
 		position: relative;
 	}
-	.progress2{ 
-		width:0.5rem; 
-		height:0.5rem; 
+	.progress2{
+		width:0.5rem;
+		height:0.5rem;
 		border-radius: 50%;
-		background:#fff; 
-		position:absolute; 
+		background:#fff;
+		position:absolute;
 		left:0;
 		top:-0.13rem;
 	}

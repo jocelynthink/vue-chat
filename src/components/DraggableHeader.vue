@@ -18,7 +18,7 @@
 
 </template>
 
-<script>
+<script type="es6">
 //document.body.addEventListener('touchmove', function (e) {
 //  e.preventDefault()
 //})

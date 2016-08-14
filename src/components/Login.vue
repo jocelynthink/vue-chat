@@ -18,7 +18,7 @@
 
 </template>
 
-<script>
+<script type="es6">
 import from 'bootstrap'
 export default {
   data () {

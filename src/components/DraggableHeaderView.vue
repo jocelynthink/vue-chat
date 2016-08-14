@@ -8,7 +8,7 @@
   </template>
 </template>
 
-<script>
-	
+<script type="es6">
+
 </script>
 

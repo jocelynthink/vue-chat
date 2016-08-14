@@ -1,7 +1,7 @@
 <template>
 	<nav class="bar bar-nav" :style="setStyle" >
-		<a href="javascript:;" 
-		   v-if="isgoback" 
+		<a href="javascript:;"
+		   v-if="isgoback"
 		   v-link="{path: path}">
 		   <i class="fa fa-chevron-left" aria-hidden="true" v-if="type==='back'"></i>
 		   <i class="fa fa-align-justify" aria-hidden="true" v-if="type==='menu'"></i>
@@ -10,7 +10,7 @@
   </nav>
 </template>
 
-<script>
+<script type="es6">
 	export default {
 		props: {
 			path:'',

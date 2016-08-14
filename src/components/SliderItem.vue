@@ -1,10 +1,10 @@
 <template>
-	<li class="slider-item" :style="{'width':`${100 / this.count}%`}"> 
+	<li class="slider-item" :style="{'width':`${100 / this.count}%`}">
 		<img :src="item.src" :alt="item.alt">
 	</li>
 </template>
 
-<script>
+<script type="es6">
 	export default {
 		name: 'SliderItem',
 		props: {

@@ -5,7 +5,7 @@
 		<!-- <button @click="connectServer">连接服务器</button> -->
 </template>
 
-<script>
+<script type="es6">
 	import NavItem from '../components/NavItem'
 	import Silder from '../components/Slider'
 	import jpg0 from '../assets/images/6.jpg'

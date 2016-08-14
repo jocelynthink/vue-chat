@@ -8,7 +8,7 @@
 	</div>
 </template>
 
-<script>
+<script type="es6">
 	import SliderItem from '../components/SliderItem'
 	import SliderDots from '../components/SliderDots'
 	import SliderArrows from '../components/SliderArrows'

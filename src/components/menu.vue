@@ -11,7 +11,7 @@
 	</section>
 </template>
 
-<script>
+<script type="es6">
 	import UserInfo from "../components/UserInfo"
 	export default {
 		props: {
@@ -51,11 +51,11 @@
 	.ShowMenu {
 		transform: translateX(200px);
 	}
-	
+
 	.list-ul li span{
 
 		float: right;
 		margin-right: 60px;
 	}
-	
+
 </style>

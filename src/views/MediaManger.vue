@@ -8,8 +8,8 @@
 		</media-manger-item>
 	</div>
 </template>
-	
-<script>
+
+<script type="es6">
 	import jpg0 from '../assets/images/0.jpg'
 	import jpg1 from '../assets/images/1.jpg'
 	import jpg2 from '../assets/images/2.jpg'
@@ -19,7 +19,7 @@
 
 	import headJpg from '../assets/me.jpg'
 	import MediaMangerItem from '../components/MediaMangerItem'
-	
+
 	export default {
 		data () {
 			return {

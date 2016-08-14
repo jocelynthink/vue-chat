@@ -4,7 +4,7 @@
 	<p>{{$route.params.mediatype}}</p>
 </template>
 
-<script>
+<script type="es6">
 	import jpg0 from '../assets/images/0.jpg'
 	import jpg1 from '../assets/images/1.jpg'
 	import jpg2 from '../assets/images/2.jpg'
@@ -55,7 +55,7 @@
 			// console.log($route.params.media);
 		},
 		methods: {
-			
+
 		},
 		components: {
 			MediaItem

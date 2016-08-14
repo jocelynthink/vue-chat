@@ -5,7 +5,7 @@
           <div class="iner">
               <input type="text" class="message_text" id="message_text" required="">
           </div>
-          <a href="javascript:" class="add_icon" id="add" v-on:click="showFunction">+</a>        
+          <a href="javascript:" class="add_icon" id="add" v-on:click="showFunction">+</a>
       </form>
   </div>
 	<!-- 功能框 -->
@@ -19,7 +19,7 @@
 	</div>
 </template>
 
-<script>
+<script type="es6">
 	import photoPng from '../assets/photo.png'
 
 	export default {
@@ -133,7 +133,7 @@
 	    background-attachment: initial;
 	    background-origin: initial;
 	    background-clip: initial;
-	    background-color: transparent;   
+	    background-color: transparent;
 	}
 	.message_text:focus {
 	    outline: none;
@@ -190,7 +190,7 @@
 	}
 
 	.show_functon  {
-	    
+
 	    height: 10rem;
 	}
 	.hide_function {

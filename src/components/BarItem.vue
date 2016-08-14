@@ -5,8 +5,8 @@
 	</a>
 </template>
 
-<script>
-export default{	
+<script type="es6">
+export default{
 	props: {
 		path: '',
 		icon: '',
@@ -17,5 +17,5 @@ export default{
 </script>
 
 <style>
-	
+
 </style>
