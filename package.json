@@ -16,6 +16,7 @@
     "babel-runtime": "^6.0.0",
     "express": "^4.14.0",
     "fetch-ie8": "^1.4.3",
+    "fetch-jsonp": "^1.0.1",
     "normalize.css": "^4.2.0",
     "vue": "^1.0.21",
     "vue-loadmore": "^0.2.4",

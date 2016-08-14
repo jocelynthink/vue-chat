@@ -1,20 +1,20 @@
 <template>
   <div class="my-container my-list" v-if="ok">
-    <nav-item :title="title" :isgoback="false" type="goback"></nav-item>
+    <!--<nav-item :title="title" :isgoback="false" type="goback"></nav-item>-->
     <Loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded"
               :top-pull-text="''" :top-drop-text="'Refresh'" top-loading-text="Loading..."
               :bottom-pull-text="''" :bottom-drop-text="'More'" bottom-loading-text="Loading...">
       <!--<div class="list-block infinite-list">-->
-        <ul class="list-content">
-          <list-item v-for="todo in todos"
-                     :src="todo.src"
-                     :name="todo.name"
-                     :message="todo.message"
-                     :goto-chat="gotoChat"
-                     :time="todo.time"
-                     path="/chat/user">
-          </list-item>
-        </ul>
+      <ul class="list-content">
+        <list-item v-for="item in data"
+                   :headimgurl="item.headimgurl"
+                   :nickname="item.nickname"
+                   :message="item.last_post.MsgType == 'text' ? item.last_post.Content : item.last_post.MsgType"
+                   :time="item.last_seen"
+                   :openid="item.openid"
+                   path="/chat/user">
+        </list-item>
+      </ul>
       <!--</div>-->
     </Loadmore>
   </div>
@@ -24,6 +24,7 @@
 </template>
 
 <script type="es6">
+  import Util from '../util'
   import Loadmore from 'vue-loadmore'
   import headJpg from '../assets/me.jpg'
   import headJpg2 from '../assets/me2.jpg'
@@ -36,101 +37,80 @@
   export default {
     data () {
       return {
-        todos: [
+        data: [
           {
-            src: headJpg,
-            name: 'jocelyn',
-            message: 'hello! good morning!',
-            time: '14:23'
+            headimgurl: headJpg,
+            nickname: 'jocelyn',
+            last_post: 'hello! good morning!',
+            last_seen: 1471156368,
+            openid: 'odst7jsi-QVE7Eobl06kmVCj9V3Q"'
           },
-          {
-            src: headJpg,
-            name: '徐扬',
-            message: 'hello! good morning!',
-            time: '14:22'
-          },
-          {
-            src: headJpg,
-            name: 'jocelyn',
-            message: 'hello! good morning!',
-            time: '12:11'
-          },
-          {
-            src: headJpg2,
-            name: 'jocelyn',
-            message: 'hello! good morning!',
-            time: '09:21'
-          },
-          {
-            src: headJpg2,
-            name: 'lu',
-            message: '你在干什么呢？',
-            time: '08:22'
-          },
-          {
-            src: headJpg,
-            name: 'jocelyn',
-            message: 'hello! good morning!',
-            time: '昨天'
-          },
-          {
-            src: headJpg2,
-            name: 'jocelyn',
-            message: 'hello! good morning!',
-            time: '昨天'
-          },
-          {
-            src: headJpg,
-            name: 'lu',
-            message: 'hello! good morning!',
-            time: '昨天'
-          },
-          {
-            src: headJpg2,
-            name: 'jocelyn',
-            message: 'hello! good morning!',
-            time: '星期三'
-          }
+
         ],
         title: '聊天记录',
         ok: true,
         showName: '',
+        allLoaded: true,
+        next_id: ''
       }
     },
     ready(){
-      this.getData()
+      //this.getData()
+      document.head.getElementsByTagName('title')[0].innerText = '聊天记录列表'
     },
     methods: {
-      gotoChat (value) {
-        this.ok = false;
-        this.$broadcast('showName', value);
-        this.showName = value;
-      },
-      getData(){
-        const url = 'http://wximg.qq.com/wxp/mmad/data/area/areas_core_20160415.js'
-        const data = {}
-        fetch(url).then(response => response.text())
-          .catch(e => console.log("Oops, error", e))
-          .then(data => {
-            console.log(data)
-          })
+      //gotoChat (openid, nickname) {
+      //  this.ok = false;
+      //  this.$broadcast('showName', nickname);
+      //  this.showName = nickname;
+      //},
+      getData(openid){
+        return new Promise((resolve, reject) => {
+          const url = 'http://121.201.68.192/recent_customer.php'
+          const data = {
+            page_size: 10,
+            next_id: openid || ''
+          }
+          const options = {
+            jsonpCallback: 'callback'
+          }
+          Util.fetchJsonp(url, data, options).then(response => response.json())
+            .catch(e => {
+              console.log("Oops, error", e)
+              reject(e)
+            })
+            .then(json => {
+              console.log("success", json)
+              if (json.data && json.data.length) {
+                if (openid) {
+                  this.data = this.data.concat(json.data)
+                } else {
+                  this.data = json.data
+                }
+
+                if (json.next_id && json.data.length >= data.page_size) {
+                  this.next_id = json.next_id
+                  this.allLoaded = false
+                }
+              }
+              resolve(json)
+            })
+        })
+
       },
       loadTop(id){
         console.log('top', id)
-        setTimeout(() => {
-          this.$broadcast('onTopLoaded', id)
-        }, 1000)
+        this.getData().then(json => {
+          console.log('resolve top')
+          this.$broadcast('onTopLoaded', id);
+        })
       },
       loadBottom(id){
         console.log('bottom', id)
-        setTimeout(() => {
-          this.allLoaded = true;// if all data are loaded
+        this.getData(this.next_id).then(json => {
+          console.log('resolve bottom')
           this.$broadcast('onBottomLoaded', id);
-        }, 1000)
-
-      },
-      allLoaded(){
-        console.log('allLoaded')
+        })
       }
     },
     components: {
@@ -252,32 +232,35 @@
     color: #A2A2A2;
   }
 
-
-  .list-content{
+  .list-content {
     position: relative;
     top: -20px;
   }
 
-  .my-list .mint-loadmore-top{
+  .my-list .mint-loadmore-top {
     position: relative;
     top: -40px;
     text-align: center;
     color: #a2a2a2;
   }
+
   .my-list .mint-loadmore-top span {
     display: inline-block;
     transition: .2s linear;
   }
-  .my-list .mint-loadmore-bottom{
+
+  .my-list .mint-loadmore-bottom {
     /*position: relative;*/
     /*top: 0px;*/
     text-align: center;
     color: #a2a2a2;
   }
+
   .my-list .mint-loadmore-bottom span {
     display: inline-block;
     transition: .2s linear;
   }
+
   .rotate {
     transform: rotate(180deg);
   }

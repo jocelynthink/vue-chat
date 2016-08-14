@@ -2,7 +2,7 @@
 	<div class="message left" v-if="isleft">
 	  <div class="message-img"><img v-bind:src="src" alt=""></div>
 	  <div class="message-conts">
-      <p class="nike" v-if="isshowname">{{name}}</p>
+      <p class="nike" v-if="isshowname">{{nickname}}</p>
       <div class="message-main">
       	<p v-if="message.type==='text'" class="message-cont">{{message.cont}}</p>
       </div>
@@ -34,7 +34,7 @@
 	<div class="message right" v-else>
 	  <div class="message-img"><img v-bind:src="src" alt=""></div>
 	  <div class="message-conts">
-      <p class="nike nike-right" v-if="isshowname">{{name}}</p>
+      <p class="nike nike-right" v-if="isshowname">{{nickname}}</p>
       <div class="message-main" v-if="message.type==='text'">
       	<p v-if="message.type==='text'" class="message-cont">{{message.cont}}</p>
       </div>
@@ -84,7 +84,7 @@
 				type: String,
 				require: true
 			},
-			name: {
+      nickname: {
 				type: String,
 				require: true,
 			},

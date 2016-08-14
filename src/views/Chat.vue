@@ -1,14 +1,14 @@
 <template>
   <div class="my-container my-chat">
-    <nav-item :title=$route.params.userId :isgoback="true" path="/list" type="back"></nav-item>
+    <!--<nav-item :title=$route.params.userId :isgoback="true" path="/list" type="back"></nav-item>-->
     <message v-el:chat-content>
       <Loadmore :top-method="loadTop"
                 :top-pull-text="''" :top-drop-text="'More'" top-loading-text="Loading..."
                 :bottom-pull-text="''" :bottom-drop-text="''" bottom-loading-text="">
         <message-item v-for="mes in messages"
                       track-by="$index"
-                      :name="mes.name"
-                      :src="mes.src"
+                      :nickname="mes.nickname"
+                      :src="mes.headimgurl"
                       :message="mes.message"
                       :isleft="mes.isSender"
                       :isshowname="mes.isshowname"
@@ -21,6 +21,7 @@
 </template>
 
 <script type="es6">
+  import Util from '../util'
   import Loadmore from 'vue-loadmore'
   import headJpg from '../assets/me.jpg'
   import jpg0 from '../assets/images/0.jpg'
@@ -43,6 +44,9 @@
       }
     },
     ready () {
+      console.log('openid', this.$route.params.openid)
+      document.head.getElementsByTagName('title')[0].innerText = this.$route.params.nickname
+
       this.getData()
 
       this.$on('playaudio', src => {
@@ -53,12 +57,11 @@
     data () {
       return {
         playaudioid: '',
-        title: this.$parent.showName,
         isshowmedia: false,
         messages: [
           {
             name: 'jocelyn',
-            src: headJpg,
+            headimgurl: headJpg,
             message: {
               type: 'text',
               cont: '你好！'
@@ -164,19 +167,39 @@
         this.$parent.ok = true;
         console.log(this.$parent.showName);
       },
-      getData(id){
-        const url = 'http://wximg.qq.com/wxp/mmad/data/area/areas_core_20160415.js'
-        const data = {
-          id
-        }
-        fetch(url).then(response => response.text())
-          .catch(e => console.log("Oops, error", e))
-          .then(data => {
-            if(!id){
-              this.$els.chatContent.scrollTop = this.$els.chatContent.scrollHeight
-            }
-            console.log(data)
-          })
+      getData(openid){
+        return new Promise((resolve, reject) => {
+          const url = 'http://121.201.68.192/recent_customer.php'
+          const data = {
+            page_size: 10,
+            next_id: openid || ''
+          }
+          const options = {
+            jsonpCallback: 'callback'
+          }
+          Util.fetchJsonp(url, data, options).then(response => response.json())
+            .catch(e => {
+              console.log("Oops, error", e)
+              reject(e)
+            })
+            .then(json => {
+              console.log("success", json)
+              if (json.data && json.data.length) {
+                if (openid) {
+                  this.data = this.data.concat(json.data)
+                } else {
+                  this.data = json.data
+                }
+
+                if (json.next_id && json.data.length >= data.page_size) {
+                  this.next_id = json.next_id
+                  this.allLoaded = false
+                }
+              }
+              resolve(json)
+            })
+        })
+
       },
       loadTop(id){
         console.log('top', id)

@@ -44,7 +44,7 @@ router.map({
 	'/list': {
 		component: List
 	},
-	'/chat/:userId': {
+	'/chat/:openid/:nickname': {
 		name: 'chat',
 		component: Chat
 	},
