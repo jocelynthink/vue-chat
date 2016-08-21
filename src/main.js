@@ -6,13 +6,13 @@ import VueTouch from 'vue-touch'
 import 'whatwg-fetch'
 //import 'babel-polyfill'
 
-import Home from './views/Home'
-import Tasks from './views/ChatRoom'
+//import Home from './views/Home'
+//import Tasks from './views/ChatRoom'
 import List from './views/List'
 import Chat from './views/Chat'
-import Media from './views/Media'
-import User from './views/User'
-import MediaManger from './views/MediaManger'
+//import Media from './views/Media'
+//import User from './views/User'
+//import MediaManger from './views/MediaManger'
 // import AlertDoc from './views/AlertDoc'
 import DraggableHeader from './components/DraggableHeader'
 import Loading from './views/Loading'
@@ -36,12 +36,12 @@ router.map({
 	'/': {
 		component: List
 	},
-	'/home': {
-		component: Home
-	},
-	'/tasks': {
-		component: Tasks
-	},
+	//'/home': {
+	//	component: Home
+	//},
+	//'/tasks': {
+	//	component: Tasks
+	//},
 	'/list': {
 		component: List
 	},
@@ -49,19 +49,19 @@ router.map({
 		name: 'chat',
 		component: Chat
 	},
-	'/mediamanger':{
-		component: MediaManger
-	},
-	'/media/:mediaid/:mediatype': {
-		name: 'media',
-		component: Media
-	},
-	'/DraggableHeader' : {
-		component: DraggableHeader
-	},
-	'/user' : {
-		component: User
-	}
+	//'/mediamanger':{
+	//	component: MediaManger
+	//},
+	//'/media/:mediaid/:mediatype': {
+	//	name: 'media',
+	//	component: Media
+	//},
+	//'/DraggableHeader' : {
+	//	component: DraggableHeader
+	//},
+	//'/user' : {
+	//	component: User
+	//}
 	// },
 	// '/login' : {
 	// 	component: Login
