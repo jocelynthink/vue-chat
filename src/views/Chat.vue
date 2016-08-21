@@ -5,7 +5,7 @@
       <Loadmore :top-method="loadTop"
                 :top-pull-text="''" :top-drop-text="'More'" top-loading-text="Loading..."
                 :bottom-pull-text="''" :bottom-drop-text="''" bottom-loading-text="">
-        <message-item v-for="mes in messages"
+        <message-item v-for="mes in data"
                       track-by="$index"
                       :nickname="mes.nickname"
                       :src="mes.headimgurl"
@@ -13,26 +13,33 @@
                       :isleft="mes.isSender"
                       :isshowname="mes.isshowname"
                       :playaudioid.sync="playaudioid"
+                      :showmedia="showmedia"
           ></message-item>
       </Loadmore>
     </message>
-    <input-box v-if="isshowinputbox" :isshowfuns="true"></input-box>
+    <!--<input-box v-if="isshowinputbox" :isshowfuns="true"></input-box>-->
   </div>
+  <media v-if="isshowmedia" :hiddenmedia="hiddenmedia" :showmedaimanager="showmedaimanager" :mediaSet="mediaData"
+         :currentid="currentid" :mediatype="mediatype"></media>
+  <media-manager v-if="isshowmediamanager" :hidemedaimanager="hidemedaimanager" :mediaSet="mediaData"
+                 :currentid="currentid" :mediatype="mediatype"></media-manager>
 </template>
 
 <script type="es6">
   import Util from '../util'
   import Loadmore from 'vue-loadmore'
-  import headJpg from '../assets/me.jpg'
-  import jpg0 from '../assets/images/0.jpg'
-  import jpg1 from '../assets/images/1.jpg'
-  import jpg2 from '../assets/images/2.jpg'
-  import jpg3 from '../assets/images/3.jpg'
-  import jpg4 from '../assets/images/4.jpg'
-  import jpg5 from '../assets/images/5.jpg'
+  import headJpg from '../assets/head.jpeg'
+  //import jpg0 from '../assets/images/0.jpg'
+  //import jpg1 from '../assets/images/1.jpg'
+  //import jpg2 from '../assets/images/2.jpg'
+  //import jpg3 from '../assets/images/3.jpg'
+  //import jpg4 from '../assets/images/4.jpg'
+  //import jpg5 from '../assets/images/5.jpg'
 
-  import InputBox from '../components/InputBox'
-  import NavItem from '../components/NavItem'
+  //import InputBox from '../components/InputBox'
+  //import NavItem from '../components/NavItem'
+  import Media from '../views/Media'
+  import MediaManager from '../views/MediaManger'
   import Message from '../components/Message'
   import MessageItem from '../components/MessageItem'
 
@@ -49,130 +56,180 @@
 
       this.getData()
 
+      this.initAudio()
+
       this.$on('playaudio', src => {
         console.log('playAudio');
       });
       this.audio = new Audio();
     },
+
     data () {
       return {
         playaudioid: '',
+        isPlayAudio: false,
+        isLoadingAudio: false,
         isshowmedia: false,
-        messages: [
-          {
-            name: 'jocelyn',
-            headimgurl: headJpg,
-            message: {
-              type: 'text',
-              cont: '你好！'
-            },
-            isSender: true,
-            isshowname: false
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'text',
-              cont: '你在干什么呢？'
-            },
-            isSender: false,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'image',
-              src: jpg0,
-              mediaid: 0
-            },
-            isSender: false,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'audio',
-              src: 'http://ictt.xidian.edu.cn/yy1.mp3',
-              mediaid: 6,
-              audiotime: 2
-            },
-            isSender: false,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'image',
-              src: jpg1,
-              mediaid: 1
-            },
-            isSender: false,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'audio',
-              src: 'http://ictt.xidian.edu.cn/yy.mp3',
-              mediaid: 7,
-              audiotime: 6
-
-            },
-            isSender: true,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'image',
-              src: jpg3,
-              mediaid: 3
-            },
-            isSender: true,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'video',
-              src: 'http://ictt.xidian.edu.cn/aa.mp4',
-              mediaid: 2
-            },
-            isSender: false,
-            isshowname: true
-          },
-          {
-            name: 'kaijun',
-            src: headJpg,
-            message: {
-              type: 'video',
-              src: 'http://ictt.xidian.edu.cn/aa.mp4',
-              mediaid: 5
-            },
-            isSender: true,
-            isshowname: true
-          }
+        isshowmediamanager: false,
+        openid: this.$route.params.openid,
+        _mediaData: [],
+        currentid: 0,
+        mediatype: 0,
+        data: [
+          //{
+          //  name: 'jocelyn',
+          //  headimgurl: headJpg,
+          //  message: {
+          //    type: 'text',
+          //    cont: '你好！'
+          //  },
+          //  isSender: true,
+          //  isshowname: false
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'text',
+          //    cont: '你在干什么呢？'
+          //  },
+          //  isSender: false,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'image',
+          //    src: jpg0,
+          //    mediaid: 0
+          //  },
+          //  isSender: false,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'audio',
+          //    src: 'http://ictt.xidian.edu.cn/yy1.mp3',
+          //    mediaid: 6,
+          //    audiotime: 2
+          //  },
+          //  isSender: false,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'image',
+          //    src: jpg1,
+          //    mediaid: 1
+          //  },
+          //  isSender: false,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'audio',
+          //    src: 'http://ictt.xidian.edu.cn/yy.mp3',
+          //    mediaid: 7,
+          //    audiotime: 6
+          //
+          //  },
+          //  isSender: true,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'image',
+          //    src: jpg3,
+          //    mediaid: 3
+          //  },
+          //  isSender: true,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'video',
+          //    src: 'http://ictt.xidian.edu.cn/aa.mp4',
+          //    mediaid: 2
+          //  },
+          //  isSender: false,
+          //  isshowname: true
+          //},
+          //{
+          //  name: 'kaijun',
+          //  src: headJpg,
+          //  message: {
+          //    type: 'video',
+          //    src: 'http://ictt.xidian.edu.cn/aa.mp4',
+          //    mediaid: 5
+          //  },
+          //  isSender: true,
+          //  isshowname: true
+          //}
         ]
       }
     },
     methods: {
+      initAudio(){
+        window.messageAudio = window.messageAudio || new Audio();
+        window.messageAudio.autoplay = true;
+        window.messageAudio.removeEventListener('ended', null)
+        window.messageAudio.addEventListener('ended', () => {
+          this.playaudioid = ''
+          this.isLoadingAudio = false
+        }, false)
+        window.messageAudio.removeEventListener('loadstart', null)
+        window.messageAudio.addEventListener('loadstart', () => {
+          this.isLoadingAudio = true
+        }, false)
+        window.messageAudio.removeEventListener('loadeddata', null)
+        window.messageAudio.addEventListener('loadeddata', () => {
+          this.isLoadingAudio = false
+        }, false)
+        window.messageAudio.removeEventListener('error', null)
+        window.messageAudio.addEventListener('error', (e) => {
+          alert('您的设备暂时不支持播放该格式的音频文件,错误代码: ' + window.messageAudio.error.code)
+        }, false)
+      },
       goBack() {
         this.$parent.ok = true;
         console.log(this.$parent.showName);
       },
-      getData(openid){
+      showmedia (currentid, mediatype) {
+        this.isshowmedia = true;
+        this.currentid = currentid;
+        this.mediatype = mediatype;
+      },
+      hiddenmedia () {
+        this.isshowmedia = false;
+      },
+      showmedaimanager () {
+        this.isshowmediamanager = true;
+        this.isshowmedia = false;
+      },
+      hidemedaimanager (isshowmedia, currentid, mediatype) {
+        this.currentid = (currentid || currentid === 0) ? currentid : this.currentid;
+        this.mediatype = mediatype || this.mediatype;
+        this.isshowmedia = !!isshowmedia || false;
+        this.isshowmediamanager = false;
+      },
+      getData(next_id){
         return new Promise((resolve, reject) => {
-          const url = 'http://121.201.68.192/recent_customer.php'
+          const url = Util.url + 'user_sessions.php'
           const data = {
             page_size: 10,
-            next_id: openid || ''
+            openid: this.openid,
+            next_id: next_id || ''
           }
           const options = {
             jsonpCallback: 'callback'
@@ -184,11 +241,44 @@
             })
             .then(json => {
               console.log("success", json)
-              if (json.data && json.data.length) {
-                if (openid) {
-                  this.data = this.data.concat(json.data)
+              if (json.data && json.data.sessions && json.data.sessions.length) {
+                let _data = [], _mediaData = [], voiceCount = 0
+                json.data.sessions.map(item => {
+                  item.posts.map(_item => {
+                    const isCustom = _item.FromUserName === data.openid
+                    const isText = _item.MsgType === 'text'
+                    const isVoice = _item.MsgType === 'voice'
+                    const isImage = _item.MsgType === 'image'
+                    let src = Util.imageUrl + _item.MediaUrl
+                    if(!isImage){
+                      src = Util.mediaUrl + _item.MediaUrl
+                    }
+                    const message = {
+                      type: _item.MsgType || 'text',
+                      src,
+                      thumbMediaUrl: Util.imageUrl + _item.ThumbMediaUrl || '',
+                      mediaid: !isText ? _mediaData.length : null,
+                      voiceId: voiceCount++,
+                      cont: _item.Content || ''
+                    }
+                    _data.push({
+                      headimgurl: isCustom ? json.customer.headimgurl : item.headimgurl || headJpg,
+                      nickname: isCustom ? json.customer.nickname : item.nickname || '',
+                      message,
+                      isSender: isCustom,
+                      isshowname: true
+                    })
+                    if (!isText && !isVoice) {
+                      _mediaData.push(message)
+                    }
+                  })
+                })
+                if (next_id) {
+                  this.data = this.data.concat(_data)
+                  this.mediaData = this.data.concat(_mediaData)
                 } else {
-                  this.data = json.data
+                  this.data = _data
+                  this.mediaData = _mediaData
                 }
 
                 if (json.next_id && json.data.length >= data.page_size) {
@@ -203,10 +293,10 @@
       },
       loadTop(id){
         console.log('top', id)
-        setTimeout(() => {
-          this.messages = this.messages.concat(this.messages)
-          this.$broadcast('onTopLoaded', id)
-        }, 1000)
+        this.getData(this.next_id).then(json => {
+          console.log('resolve bottom')
+          this.$broadcast('onBottomLoaded', id);
+        })
       }
     },
     events: {
@@ -217,15 +307,17 @@
     },
     components: {
       Loadmore,
-      InputBox,
-      NavItem,
+      Media,
+      MediaManager,
+      //InputBox,
+      //NavItem,
       Message,
       MessageItem
     }
   }
 </script>
 
-<style >
+<style>
   /*html {
     font-size: 20px;
   }

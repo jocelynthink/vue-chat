@@ -2,11 +2,15 @@ import sha1 from 'sha1'
 import fetchJsonp from 'fetch-jsonp'
 
 const Util = {
+  url: 'http://cs.nankebuluo.com/',
+  cdnUrl: 'http://cdn.nankebuluo.com',
+  imageUrl: 'http://cdn.nankebuluo.com/static/image',
+  mediaUrl: 'http://cdn.nankebuluo.com/static/media',
   makeSignature(timestamp, nonce) {
     const token = 'swan'
 
-    let arr = [token, timestamp, nonce].sort((a, b) => a > b)
-    console.log(arr)
+    let arr = [token, timestamp, nonce].sort((a, b) => (a + '') > (b + '') ? 1 : -1)
+    //alert(arr)
     return sha1(arr.join(''))
   },
 

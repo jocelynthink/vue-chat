@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import VueTouch from 'vue-touch'
 
 import 'whatwg-fetch'
+//import 'babel-polyfill'
 
 import Home from './views/Home'
 import Tasks from './views/ChatRoom'

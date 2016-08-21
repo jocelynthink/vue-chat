@@ -1,6 +1,6 @@
 <template>
 	<div class="slider" @mouseover="pause && pausePlay()" @mouseout="pause && goPlay()">
-		<ul :style="{'width': `${this.count * 100}%`,'left': `${-100 * this.current}%`, transitionDuration:`{this.speed}s`}">
+		<ul :style="{'width': `${this.count * 100}%`,'left': `${-100 * this.current}%`">
 			<slider-item	v-for="item in items" :count="count" :item="item"></slider-item>
 		</ul>
 		<slider-dots v-if="dots" :count="count" :current="current" :turn="turn"></slider-dots>

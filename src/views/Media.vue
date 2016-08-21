@@ -1,64 +1,153 @@
 <template>
-	<media-item :mediaSet="mediaset" :currentid="$route.params.mediaid" :mediatype="$route.params.mediatype">
-	</media-item>
-	<p>{{$route.params.mediatype}}</p>
+  <div class="mediaContainer">
+    <ul class="media" v-bind:style="{left: left+'vw' ,width: width+'vw' }">
+      <li class="mediaBg"
+          v-for="media in mediaset"
+
+          v-bind:style="{left: $index*100 + 'vw'}">
+          <media-item :media="media" :index="$index" :hiddenmedia="hiddenmedia" :weipeleft="weipeleft" :weiperight="weiperight"></media-item>
+        <!--<img v-if="media.type==='image'"-->
+             <!--class="img"-->
+             <!--v-el:media-img-->
+             <!--v-bind:src="media.src">-->
+        <!--<video-item v-if="media.type==='video'"-->
+                    <!--:mediasrc="media.src"></video-item>-->
+      </li>
+    </ul>
+    <a class="mediaMg"
+       @click.stop="showmedaimanager">
+       <!--v-link="{path: '/mediamanger'}">-->
+      <span><i class="fa fa-th" aria-hidden="true"></i></span>
+    </a>
+	<!--<p>{{$route.params.mediatype}}</p>-->
+  </div>
+
 </template>
 
 <script type="es6">
-	import jpg0 from '../assets/images/0.jpg'
-	import jpg1 from '../assets/images/1.jpg'
-	import jpg2 from '../assets/images/2.jpg'
-	import jpg3 from '../assets/images/3.jpg'
-	import jpg4 from '../assets/images/4.jpg'
-	import jpg5 from '../assets/images/5.jpg'
-
 	import MediaItem from '../components/MediaItem'
+
 	export default {
+		props: {
+			mediaset: {
+				type: Array
+			},
+			currentid: {
+        type: Number
+      },
+			mediatype: {
+				type: String
+			},
+      hiddenmedia:{
+        type: Function
+      },
+      showmedaimanager:{
+        type: Function
+      }
+		},
 		data () {
 			return {
-				mediaset: [
-				{
-					src:jpg0,
-					mediaid: 0,
-					type: 'image'
-				},
-				{
-					src:jpg1,
-					mediaid: 1,
-					type: 'image'
-
-				},
-				{
-					src:'http://ictt.xidian.edu.cn/aa.mp4',
-					mediaid: 2,
-					type: 'video'
-				},
-				{
-					src:jpg3,
-					mediaid: 3,
-					type: 'image'
-				},
-				{
-					src:jpg4,
-					mediaid: 4,
-					type: 'image'
-				},
-				{
-					src:jpg5,
-					mediaid: 5,
-					type: 'image'
-				}]
+				left: 0,
+				width: this.mediaset.length * 100,
+        height: 0,
+        clientheight: document.body.clientHeight,
 			}
 		},
 		ready () {
-			// console.log($route.params.mediatype);
-			// console.log($route.params.media);
+      //this.height = this.$els.mediaImg.height || 0;
+			this.left = -this.currentid*100;
 		},
 		methods: {
-
+			//hiddenmedia() {
+				//history.back();
+			//},
+			weipeleft (event,index) {
+				console.log('left');
+				console.log(index);
+				console.log(this.mediaset.length);
+				if(index === this.mediaset.length - 1){
+					console.log("最后面的一个了");
+				}else {
+					this.left = -(index + 1) * 100 ;
+				}
+			},
+			weiperight (event,index) {
+				console.log('right');
+				console.log(index);
+				if(index ===  0){
+					console.log("最后前面的一个了");
+				}else {
+					this.left = -(index - 1) * 100 ;
+				}
+				// this.$els.myvideo.pause();
+			}
 		},
 		components: {
-			MediaItem
+      MediaItem
 		}
 	}
 </script>
+
+<style>
+  .mediaContainer{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  .media {
+    position: absolute;
+    left:0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .mediaBg {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left:0;
+    z-index:3;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    overflow: hidden;
+    /*overflow-y: scroll;*/
+  }
+  .mediaMg {
+    position: absolute;
+    bottom: 1rem;
+    right: 0.3rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: solid rgba(255,255,255,.5) 1px;
+    background-color: rgba(0,0,0,.5);
+    display: inline-block;
+    z-index: 20;
+    text-align: center;
+    border-radius: 0.1rem;
+  }
+
+  .mediaMg span{
+    cursor:pointer;
+  }
+  .mediaMg i{
+    color: #fff;
+    z-index: 8;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  .swipeme {
+    position: absolute;
+    bottom: 0px;
+    width: 100vw;
+    height: 20vh;
+    background: red;
+  }
+
+</style>
+

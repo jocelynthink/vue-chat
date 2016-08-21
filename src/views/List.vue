@@ -26,25 +26,25 @@
 <script type="es6">
   import Util from '../util'
   import Loadmore from 'vue-loadmore'
-  import headJpg from '../assets/me.jpg'
-  import headJpg2 from '../assets/me2.jpg'
+  import headJpg from '../assets/head.jpeg'
+  //import headJpg2 from '../assets/me2.jpg'
 
   import Chat from '../views/Chat'
-  import Bar from '../components/Bar'
-  import BarItem from '../components/BarItem'
-  import NavItem from '../components/NavItem'
+  //import Bar from '../components/Bar'
+  //import BarItem from '../components/BarItem'
+  //import NavItem from '../components/NavItem'
   import ListItem from '../components/ListItem'
   export default {
     data () {
       return {
         data: [
-          {
-            headimgurl: headJpg,
-            nickname: 'jocelyn',
-            last_post: 'hello! good morning!',
-            last_seen: 1471156368,
-            openid: 'odst7jsi-QVE7Eobl06kmVCj9V3Q"'
-          },
+          //{
+          //  headimgurl: headJpg,
+          //  nickname: 'jocelyn',
+          //  last_post: 'hello! good morning!',
+          //  last_seen: 1471156368,
+          //  openid: 'odst7jsi-QVE7Eobl06kmVCj9V3Q"'
+          //},
 
         ],
         title: '聊天记录',
@@ -56,7 +56,7 @@
     },
     ready(){
       //this.getData()
-      document.head.getElementsByTagName('title')[0].innerText = '聊天记录列表'
+      document.head.getElementsByTagName('title')[0].innerText = '聊天记录'
     },
     methods: {
       //gotoChat (openid, nickname) {
@@ -66,7 +66,7 @@
       //},
       getData(openid){
         return new Promise((resolve, reject) => {
-          const url = 'http://121.201.68.192/recent_customer.php'
+          const url = Util.url + 'recent_customer.php'
           const data = {
             page_size: 10,
             next_id: openid || ''
@@ -116,9 +116,9 @@
     components: {
       Loadmore,
       Chat,
-      Bar,
-      BarItem,
-      NavItem,
+      //Bar,
+      //BarItem,
+      //NavItem,
       ListItem
     }
   }

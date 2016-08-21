@@ -1,7 +1,7 @@
 <template>
 	<a  class="item-content"
 			track-by="$index"
-			v-link="{name: 'chat' ,params: { openid: openid, nickname: nickname }}"
+			v-link="{name: 'chat' ,params: { openid: openid, nickname: nickname  }}"
 			v-touch:swipeleft="delete">
     <div class="item-left"><img v-bind:src="headimgurl"></div>
     <div class="item-right">
@@ -49,7 +49,8 @@ export default {
 	},
   data() {
     return {
-      moment
+      moment,
+      urlencode: encodeURIComponent
     }
   }
 }

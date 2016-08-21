@@ -2,6 +2,8 @@
 	<div class="video-class">
 		<video  v-bind:src="mediasrc"
 					  autoplay="{{isAutoPlay}}"
+            controls
+            @click.stop=""
 					  v-el:myvideo
 					  v-on:progress="progressing"
 					  v-on:canplay="canplays">
