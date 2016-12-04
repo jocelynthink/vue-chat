@@ -95,15 +95,16 @@ export default {
     width: 1em;
     height: 1em;
     border-radius: 1em;
-    line-height: 1em;
+    line-height: .8em;
     position: absolute;
     right: 0em;
     top: -.25em;
     color: #ffffff;
     text-align: center;
+    /*font-size: .5em;*/
   }
   .tip span {
-    /*font-size: .6em;*/
-    /*line-height: 1em;*/
+    font-size: .7em;
+    /*line-height: .7em;*/
   }
 </style>
