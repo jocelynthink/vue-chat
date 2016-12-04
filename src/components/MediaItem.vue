@@ -1,7 +1,7 @@
 <template>
   <div class="mediaitem"
-       v-touch:swipeleft="weipeleft(event,index)"
-       v-touch:swiperight="weiperight(event,index)"
+       v-touch:swipeleft="weipeleft()"
+       v-touch:swiperight="weiperight()"
        @click.stop="hiddenmedia"
        v-el:media-div>
        <!--v-bind:style="{display: clientheight <= height ? 'list-item' : 'flex'}">-->
@@ -22,7 +22,7 @@
       media: {
         type: Object
       },
-      index:{
+      count:{
         type: Number
       },
       weipeleft: {
@@ -44,7 +44,6 @@
     },
     ready () {
       this.height = this.$els.mediaImg ? (this.$els.mediaImg.height || 0) : 0;
-      this.left = -this.currentid * 100;
       console.log('height', this.height)
       if(this.height < this.clientheight){
         this.$els.mediaDiv.style.display = 'flex'

@@ -2,10 +2,11 @@
   <div class="mediaContainer">
     <ul class="media" v-bind:style="{left: left+'vw' ,width: width+'vw' }">
       <li class="mediaBg"
-          v-for="media in mediaset"
-
-          v-bind:style="{left: $index*100 + 'vw'}">
-          <media-item :media="media" :index="$index" :hiddenmedia="hiddenmedia" :weipeleft="weipeleft" :weiperight="weiperight"></media-item>
+          v-for="(index, item) in mediaset"
+          v-bind:style="{left: index*100 + 'vw'}">
+          <media-item :media="item" :hiddenmedia="hiddenmedia"
+                      :weipeleft="weipeleft" :weiperight="weiperight" >
+          </media-item>
         <!--<img v-if="media.type==='image'"-->
              <!--class="img"-->
              <!--v-el:media-img-->
@@ -33,7 +34,7 @@
 				type: Array
 			},
 			currentid: {
-        type: Number
+        type: String
       },
 			mediatype: {
 				type: String
@@ -49,6 +50,7 @@
 			return {
 				left: 0,
 				width: this.mediaset.length * 100,
+        count: +this.currentid,
         height: 0,
         clientheight: document.body.clientHeight,
 			}
@@ -61,22 +63,25 @@
 			//hiddenmedia() {
 				//history.back();
 			//},
-			weipeleft (event,index) {
+			weipeleft () {
+        const index = +this.count;
 				console.log('left');
 				console.log(index);
-				console.log(this.mediaset.length);
 				if(index === this.mediaset.length - 1){
 					console.log("最后面的一个了");
 				}else {
+          this.count++;
 					this.left = -(index + 1) * 100 ;
 				}
 			},
-			weiperight (event,index) {
+			weiperight () {
+        const index = +this.count;
 				console.log('right');
 				console.log(index);
 				if(index ===  0){
 					console.log("最后前面的一个了");
 				}else {
+          this.count--;
 					this.left = -(index - 1) * 100 ;
 				}
 				// this.$els.myvideo.pause();

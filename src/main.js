@@ -4,8 +4,12 @@ import Router from 'vue-router'
 import VueTouch from 'vue-touch'
 
 import 'whatwg-fetch'
-//import 'babel-polyfill'
+import 'babel-polyfill'
 
+import Util from './util'
+//import 'moment'
+
+//import './assets/js/qq-wechat-emotion-parser'
 //import Home from './views/Home'
 //import Tasks from './views/ChatRoom'
 import List from './views/List'
@@ -14,8 +18,8 @@ import Chat from './views/Chat'
 //import User from './views/User'
 //import MediaManger from './views/MediaManger'
 // import AlertDoc from './views/AlertDoc'
-import DraggableHeader from './components/DraggableHeader'
-import Loading from './views/Loading'
+//import DraggableHeader from './components/DraggableHeader'
+//import Loading from './views/Loading'
 // import Login from './views/Login'
 /* eslint-disable no-new */
 // new Vue({
@@ -33,57 +37,65 @@ var router = new Router()
 Vue.config.debug = true;
 
 router.map({
-	'/': {
-		component: List
-	},
-	//'/home': {
-	//	component: Home
-	//},
-	//'/tasks': {
-	//	component: Tasks
-	//},
-	'/list': {
-		component: List
-	},
-	'/chat/:openid/:nickname': {
-		name: 'chat',
-		component: Chat
-	},
-	//'/mediamanger':{
-	//	component: MediaManger
-	//},
-	//'/media/:mediaid/:mediatype': {
-	//	name: 'media',
-	//	component: Media
-	//},
-	//'/DraggableHeader' : {
-	//	component: DraggableHeader
-	//},
-	//'/user' : {
-	//	component: User
-	//}
-	// },
-	// '/login' : {
-	// 	component: Login
-	// }
+  '/': {
+    component: List
+  },
+  //'/home': {
+  //	component: Home
+  //},
+  //'/tasks': {
+  //	component: Tasks
+  //},
+  '/list': {
+    component: List
+  },
+  '/chat/:openid': {
+    name: 'chat',
+    component: Chat
+  },
+  //'/mediamanger':{
+  //	component: MediaManger
+  //},
+  //'/media/:mediaid/:mediatype': {
+  //	name: 'media',
+  //	component: Media
+  //},
+  //'/DraggableHeader' : {
+  //	component: DraggableHeader
+  //},
+  //'/user' : {
+  //	component: User
+  //}
+  // },
+  // '/login' : {
+  // 	component: Login
+  // }
 })
 
-router.beforeEach( ({to, from, next}) => {
-	let toPath = to.path
-	let fromPath = from.path
-	console.log('to: ' + toPath + ' from: ' + fromPath);
-	if (toPath.replace(/[^/]/g, '').length > 1 || toPath==='/mediamanger') {
+router.beforeEach(({to, from, next}) => {
+  let toPath = to.path
+  let fromPath = from.path
+  console.log('to: ' + toPath + ' from: ' + fromPath);
+  if (toPath.replace(/[^/]/g, '').length > 1 || toPath === '/mediamanger') {
     router.app.isIndex = false
   }
   else {
     let depath = toPath === '/'
     router.app.isIndex = depath ? 0 : 1
-	}
+  }
 
-	next()
+  next()
 })
-router.afterEach(function ({to}) {
-    console.log(`success to: ${to.path}`)
-  })
 
-router.start(App,'#app')
+router.afterEach(function ({to}) {
+  console.log(`success to: ${to.path}`)
+})
+
+//Util.login(function (json) {
+//  if (json.ret == 0) {
+//    router.start(App, '#app')
+//  } else {
+//    console.log('not login')
+//  }
+//})
+router.start(App, '#app')

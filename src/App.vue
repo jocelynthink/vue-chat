@@ -14,14 +14,14 @@
 <script>
 
 import List from './views/List'
-import Bar from './components/Bar'
-import BarItem from './components/BarItem'
+//import Bar from './components/Bar'
+//import BarItem from './components/BarItem'
 import FontAwesome from './assets/font-awesome/css/font-awesome.css'
 
 export default {
   components: {
-    Bar,
-    BarItem
+//    Bar,
+//    BarItem
   },
   data () {
     return {
