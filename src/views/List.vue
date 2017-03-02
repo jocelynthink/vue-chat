@@ -9,8 +9,9 @@
         <list-item v-for="item in data"
                    :headimgurl="item.headimgurl"
                    :nickname="item.nickname"
+                   :uid="item.uid"
                    :message="item.last_post.MsgType == 'text' ? item.last_post.Content : item.last_post.MsgType"
-                   :time="item.last_seen"
+                   :time="item.last_seen + ''"
                    :openid="item.openid"
                    path="/chat/user">
         </list-item>
@@ -45,7 +46,6 @@
           //  last_seen: 1471156368,
           //  openid: 'odst7jsi-QVE7Eobl06kmVCj9V3Q"'
           //},
-
         ],
         title: '聊天记录',
         ok: true,
@@ -55,6 +55,12 @@
       }
     },
     ready(){
+      const that = this
+      setTimeout(() => {
+        if (!that.data || !that.data.length) {
+          that.getData().then().catch(e => alert(e))
+        }
+      }, 4000)
       //this.getData()
       document.head.getElementsByTagName('title')[0].innerText = '聊天记录'
     },
@@ -64,16 +70,21 @@
       //  this.$broadcast('showName', nickname);
       //  this.showName = nickname;
       //},
-      getData(openid){
+      getData(next_id){
         return new Promise((resolve, reject) => {
           const url = Util.url + 'recent_customer.php'
           const data = {
             page_size: 10,
-            next_id: openid || ''
+            //next_id: next_id || (window.localStorage['ringy_need_relocation'] == 1 ? window.localStorage['ringy_index_next_id'] : '')
+            next_id: next_id ||  ''
           }
           const options = {
             jsonpCallback: 'callback'
           }
+
+          //取消重新定位
+          window.localStorage['ringy_need_relocation'] = 0
+
           Util.fetchJsonp(url, data, options).then(response => response.json())
             .catch(e => {
               console.log("Oops, error", e)
@@ -82,12 +93,12 @@
             .then(json => {
               console.log("success", json)
               if (json.data && json.data.length) {
-                if (openid) {
+                if (next_id) {
                   this.data = this.data.concat(json.data)
+                  window.localStorage['ringy_index_next_id'] = next_id
                 } else {
                   this.data = json.data
                 }
-
                 if (json.next_id && json.data.length >= data.page_size) {
                   this.next_id = json.next_id
                   this.allLoaded = false
@@ -103,13 +114,15 @@
         this.getData().then(json => {
           console.log('resolve top')
           this.$broadcast('onTopLoaded', id);
-        })
+        }).catch(e => alert(e))
       },
       loadBottom(id){
         console.log('bottom', id)
         this.getData(this.next_id).then(json => {
           console.log('resolve bottom')
           this.$broadcast('onBottomLoaded', id);
+        }).catch(e => {
+          this.loadBottom(id)
         })
       }
     },

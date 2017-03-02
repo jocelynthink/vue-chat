@@ -1,11 +1,16 @@
 <template>
+  <div class="message-line"
+       v-bind:style="{'margin-top': index === 0 ? '5px' : ''}"
+        v-if="isfirstpost">
+    <span>{{moment(createtime * 1000).format('MM.DD HH:mm')}}</span>
+  </div>
   <div class="message left" v-if="isleft">
     <div class="message-img"><img v-bind:src="src" alt=""></div>
     <div class="message-conts">
-      <p class="nike" v-if="isshowname">{{nickname}}</p>
+      <p class="nike" v-if="isshowname">{{{ qqWechatEmotionParser(nickname) }}}</p>
 
       <div class="message-main">
-        <p v-if="message.type==='text'" class="message-cont">{{message.cont}}</p>
+        <p v-if="message.type==='text'" class="message-cont">{{{ qqWechatEmotionParser(message.cont) }}}</p>
       </div>
       <!--<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'image'} }"-->
       <a @click.stop="showmedia(message['mediaid'], 'image')"
@@ -42,10 +47,10 @@
   <div class="message right" v-else>
     <div class="message-img"><img v-bind:src="src" alt=""></div>
     <div class="message-conts">
-      <p class="nike nike-right" v-if="isshowname">{{nickname}}</p>
+      <p class="nike nike-right" v-if="isshowname">{{{ qqWechatEmotionParser(nickname) }}}</p>
 
       <div class="message-main" v-if="message.type==='text'">
-        <p v-if="message.type==='text'" class="message-cont">{{message.cont}}</p>
+        <p v-if="message.type==='text'" class="message-cont">{{{ qqWechatEmotionParser(message.cont) }}}</p>
       </div>
       <!--<a v-link="{name: 'media', params: { mediaid : message['mediaid'], mediatype: 'image'} }"-->
       <a @click.stop="showmedia(message['mediaid'], 'image')"
@@ -96,6 +101,8 @@
    cont：文本内容
    src： 图片、音频、视频地址
    */
+  import moment from 'moment'
+
   export default {
     props: {
       src: {
@@ -133,10 +140,24 @@
         type: Boolean,
         default: false
       },
+      isfirstpost: {
+        type: Boolean,
+        default: false
+      },
+      createtime: {
+        type: String,
+        default: '0'
+      },
+      index: {
+        type: Number,
+        default: 0
+      },
     },
     data () {
       return {
-        audiowidth: (this.message.audiotime * 2) > 16 ? 16 : (this.message.audiotime * 2)
+        audiowidth: (this.message.audiotime * 2) > 16 ? 16 : (this.message.audiotime * 2),
+        qqWechatEmotionParser: qqWechatEmotionParser,
+        moment,
       }
     },
     ready () {
@@ -385,5 +406,13 @@
     -webkit-animation-name: none;
     -ms-animation-name: none;
     animation: none;
+  }
+
+  .message-line{
+    text-align: center;
+    color: #A2A2A2;
+    border-bottom: 1px solid #d4cdcd;
+    margin: 55px 0 30px;
+    padding: 5px 0;
   }
 </style>

@@ -6,6 +6,8 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var StatsPlugin = require('stats-webpack-plugin');
+
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.build.env
@@ -77,6 +79,16 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
+    }),
+
+    new StatsPlugin('stats.json',{
+      chunkModules: true,
+      chunks:true,
+      assets:true,//html,css这些
+      modules:true,
+      children:true,
+      chunksSort:true,//排序这两个都要加上
+      assetsSort:true
     })
   ]
 })

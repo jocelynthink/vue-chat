@@ -7,6 +7,7 @@
                 :bottom-pull-text="''" :bottom-drop-text="''" bottom-loading-text="">
         <message-item v-for="mes in data"
                       track-by="$index"
+                      :index="$index"
                       :nickname="mes.nickname"
                       :src="mes.headimgurl"
                       :message="mes.message"
@@ -14,15 +15,17 @@
                       :isshowname="mes.isshowname"
                       :playaudioid.sync="playaudioid"
                       :showmedia="showmedia"
+                      :isfirstpost="mes.isfirstpost"
+                      :createtime="mes.createtime + ''"
           ></message-item>
       </Loadmore>
     </message>
     <!--<input-box v-if="isshowinputbox" :isshowfuns="true"></input-box>-->
   </div>
   <media v-if="isshowmedia" :hiddenmedia="hiddenmedia" :showmedaimanager="showmedaimanager" :mediaSet="mediaData"
-         :currentid="currentid" :mediatype="mediatype"></media>
+         :currentid="currentid + ''" :mediatype="mediatype"></media>
   <media-manager v-if="isshowmediamanager" :hidemedaimanager="hidemedaimanager" :mediaSet="mediaData"
-                 :currentid="currentid" :mediatype="mediatype"></media-manager>
+                 :currentid="currentid + ''" :mediatype="mediatype"></media-manager>
 </template>
 
 <script type="es6">
@@ -52,9 +55,11 @@
     },
     ready () {
       console.log('openid', this.$route.params.openid)
-      document.head.getElementsByTagName('title')[0].innerText = this.$route.params.nickname
+      //document.head.getElementsByTagName('title')[0].innerText = this.$route.params.nickname
 
-      this.getData()
+      this.getData().then(() => {
+        this.scollBottom()
+      })
 
       this.initAudio()
 
@@ -62,6 +67,9 @@
         console.log('playAudio');
       });
       this.audio = new Audio();
+
+      //返回时重新定位
+      window.localStorage['ringy_need_relocation'] = 1
     },
 
     data () {
@@ -244,7 +252,7 @@
               if (json.data && json.data.sessions && json.data.sessions.length) {
                 let _data = [], _mediaData = [], voiceCount = 0
                 json.data.sessions.map(item => {
-                  item.posts.map(_item => {
+                  item.posts.map((_item, _i) => {
                     const isCustom = _item.FromUserName === data.openid
                     const isText = _item.MsgType === 'text'
                     const isVoice = _item.MsgType === 'voice'
@@ -266,7 +274,9 @@
                       nickname: isCustom ? json.customer.nickname : item.nickname || '',
                       message,
                       isSender: isCustom,
-                      isshowname: true
+                      isshowname: true,
+                      isfirstpost: _i === 0,
+                      createtime: +_item.CreateTime || 0
                     })
                     if (!isText && !isVoice) {
                       _mediaData.push(message)
@@ -285,11 +295,18 @@
                   this.next_id = json.next_id
                   this.allLoaded = false
                 }
+
+                document.head.getElementsByTagName('title')[0].innerText = json.customer.nickname
               }
               resolve(json)
             })
         })
 
+      },
+      scollBottom(){
+        //const el = document.getElementById('message-content');
+        const el = this.$els.chatContent;
+        el.scrollTop = el.scrollHeight + 10000
       },
       loadTop(id){
         console.log('top', id)
@@ -358,7 +375,6 @@
   .my-container p {
     margin-bottom: 0 !important;
     line-height: 1.41176471;
-
   }
 
   .chat {

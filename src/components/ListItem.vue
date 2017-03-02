@@ -1,13 +1,13 @@
 <template>
 	<a  class="item-content"
 			track-by="$index"
-			v-link="{name: 'chat' ,params: { openid: openid, nickname: nickname  }}"
+			v-link="{name: 'chat' ,params: { openid: openid}}"
 			v-touch:swipeleft="delete">
     <div class="item-left"><img v-bind:src="headimgurl"></div>
     <div class="item-right">
-      <p>{{ nickname }}</p>
-      <p>{{ message }}</p>
-      <p>{{ moment(time*1000).format('MM.DD HH:mm') }}</p>
+      <p class="list-item-nickname">{{{ '[' + uid + '] ' + qqWechatEmotionParser(nickname) }}}</p>
+      <p class="list-item-message">{{{ qqWechatEmotionParser(message) }}}</p>
+      <p class="list-item-time">{{ moment(this.time*1000).format('MM.DD HH:mm') }}</p>
     </div>
   </a>
 </template>
@@ -29,9 +29,12 @@ export default {
 			require: true
 		},
     time: {
-			type: Number
+			type: String
 		},
     openid: {
+			type: String
+		},
+    uid: {
 			type: String
 		},
 		//'goto-chat': {
@@ -42,6 +45,8 @@ export default {
 		//},
 		path:''
 	},
+  computed: {
+  },
 	methods: {
 		delete () {
 			console.log('delete');
@@ -49,9 +54,13 @@ export default {
 	},
   data() {
     return {
-      moment,
-      urlencode: encodeURIComponent
+      moment: moment,
+      urlencode: encodeURIComponent,
+      qqWechatEmotionParser: qqWechatEmotionParser
     }
+  },
+  ready(){
+
   }
 }
 </script>
@@ -59,4 +68,16 @@ export default {
 	.content a:hover{
 		background:#ccc;
 	}
+  .list-item-nickname{
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .list-item-message{
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 </style>

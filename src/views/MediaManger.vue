@@ -31,7 +31,7 @@
   //import jpg4 from '../assets/images/4.jpg'
   //import jpg5 from '../assets/images/5.jpg'
 
-  import headJpg from '../assets/me.jpg'
+  //import headJpg from '../assets/me.jpg'
   import MediaMangerItem from '../components/MediaMangerItem'
 
   export default {
