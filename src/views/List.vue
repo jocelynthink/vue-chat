@@ -13,6 +13,7 @@
                    :message="item.last_post.MsgType == 'text' ? item.last_post.Content : item.last_post.MsgType"
                    :time="item.last_seen + ''"
                    :openid="item.openid"
+                   :istip="item.unreplied"
                    path="/chat/user">
         </list-item>
       </ul>
