@@ -17,7 +17,7 @@
                       :showmedia="showmedia"
                       :isfirstpost="mes.isfirstpost"
                       :createtime="mes.createtime + ''"
-          ></message-item>
+        ></message-item>
       </Loadmore>
     </message>
     <!--<input-box v-if="isshowinputbox" :isshowfuns="true"></input-box>-->
@@ -258,7 +258,7 @@
                     const isVoice = _item.MsgType === 'voice'
                     const isImage = _item.MsgType === 'image'
                     let src = Util.imageUrl + _item.MediaUrl
-                    if(!isImage){
+                    if (!isImage) {
                       src = Util.mediaUrl + _item.MediaUrl
                     }
                     const message = {
@@ -306,7 +306,9 @@
       scollBottom(){
         //const el = document.getElementById('message-content');
         const el = this.$els.chatContent;
-        el.scrollTop = el.scrollHeight + 10000
+        setTimeout(() => {
+          el.scrollTop = el.scrollHeight
+        }, 200)
       },
       loadTop(id){
         console.log('top', id)

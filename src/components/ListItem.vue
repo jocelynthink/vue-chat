@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-touch="http://www.w3.org/1999/xhtml">
 	<a class="item-content"
 			track-by="$index"
 			v-link="{name: 'chat' ,params: { openid: openid}}"
@@ -16,60 +16,61 @@
 </template>
 
 <script type="es6">
-  import moment from 'moment'
-export default {
-	props: {
-    headimgurl: {
-			type: String,
-			require: true
-		},
-    nickname: {
-			type: String,
-			require: true
-		},
-		message: {
-			type: String,
-			require: true
-		},
-    time: {
-			type: String
-		},
-    openid: {
-			type: String
-		},
-    uid: {
-			type: String
-		},
-		//'goto-chat': {
-		//	type: Function,
-		//	default: function(openid) {
-		//		console.log('openid-----'+openid);
-		//	}
-		//},
-		path:'',
-    istip: {
-      type: Number,
-      require: true
-    }
-	},
-  computed: {
-  },
-	methods: {
-		delete () {
-			console.log('delete');
-		}
-	},
-  data() {
-    return {
-      moment: moment,
-      urlencode: encodeURIComponent,
-      qqWechatEmotionParser: qqWechatEmotionParser
-    }
-  },
-  ready(){
 
+  import moment from 'moment'
+  export default {
+    props: {
+      headimgurl: {
+        type: String,
+        require: true
+      },
+      nickname: {
+        type: String,
+        require: true
+      },
+      message: {
+        type: String,
+        require: true
+      },
+      time: {
+        type: String
+      },
+      openid: {
+        type: String
+      },
+      uid: {
+        type: String
+      },
+      //'goto-chat': {
+      //	type: Function,
+      //	default: function(openid) {
+      //		console.log('openid-----'+openid);
+      //	}
+      //},
+      path:'',
+      istip: {
+        type: Number,
+        require: true
+      }
+    },
+    computed: {
+    },
+    methods: {
+      delete () {
+        console.log('delete');
+      }
+    },
+    data() {
+      return {
+        moment: moment,
+        urlencode: encodeURIComponent,
+        qqWechatEmotionParser: qqWechatEmotionParser
+      }
+    },
+    ready(){
+
+    }
   }
-}
 </script>
 <style>
 	.content a:hover{
