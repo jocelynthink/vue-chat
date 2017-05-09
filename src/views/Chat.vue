@@ -309,6 +309,15 @@
         setTimeout(() => {
           el.scrollTop = el.scrollHeight
         }, 200)
+        let imgList = document.getElementsByTagName('img')
+        for (var i = 0; i <= imgList.length; i++) {
+          imgList[i].addEventListener('load', function () {
+            if (el.scrollTop !== el.scrollHeight) {
+              el.scrollTop = el.scrollHeight
+            }
+          })
+        }
+
       },
       loadTop(id){
         console.log('top', id)
